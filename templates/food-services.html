@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+<!-- Custom CSS -->
+<style>
+  .card-body {
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    text-transform: uppercase;
+  }
+
+  .card-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  .fa-ul {
+    padding-left: 2.5rem;
+  }
+
+  .fa-li {
+    font-size: 1rem;
+    color: #6c757d;
+  }
+
+  .otpmodel {
+    display: flex;
+    gap: 0.5rem;
+  }
+</style>
+
+{% block body %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h4 class="card-title float-left mt-4">Food & Services</h4>
+        </div>
+      </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+		<div class="container mt-3">
+			{% for category, message in messages %}
+				<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span> <!-- Cross icon -->
+					</button>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endwith %}
+    <section class="pricing py-5">
+      <div class="container">
+        <div class="row">
+          <!-- Drink Card -->
+          <div class="col-lg-3">
+            <form action="/order-food" method="POST" id="orderFormDrink">
+              <input type="hidden" name="bookingid" value="{{ bookingid }}" />
+              <input type="hidden" name="meal_type" value="Drink" />
+              <input type="hidden" name="meal_price" value="199" />
+              <div class="card mb-5 mb-lg-0">
+                <div class="card-body">
+                  <h5 class="card-title text-muted text-uppercase text-center">
+                    Drink
+                  </h5>
+                  <h6 class="card-price text-center mt-3">&#8377; 199</h6>
+                  <hr />
+                  <ul class="fa-ul">
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Fruit Punch
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Fresh Lime Soda
+                    </li>
+                  </ul>
+                  <div class="otpmodel d-flex">
+                    <input type="text" name="otp" id="otp1" placeholder="OTP" class="form-control rounded-pill text-center" />
+                  </div>
+                  <button type="submit" class="btn btn-block btn-primary mt-3 text-uppercase">
+                    Order
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Breakfast Card -->
+          <div class="col-lg-3">
+            <form action="/order-food" method="POST" id="orderFormBreakfast">
+              <input type="hidden" name="bookingid" value="{{ bookingid }}" />
+              <input type="hidden" name="meal_type" value="Breakfast" />
+              <input type="hidden" name="meal_price" value="299" />
+              <div class="card mb-5 mb-lg-0">
+                <div class="card-body">
+                  <h5 class="card-title text-muted text-uppercase text-center">
+                    Breakfast
+                  </h5>
+                  <h6 class="card-price text-center mt-3">&#8377; 299</h6>
+                  <hr />
+                  <ul class="fa-ul">
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Pancakes with Maple Syrup
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Full English Breakfast
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Continental Breakfast
+                    </li>
+                  </ul>
+                  <div class="otpmodel d-flex">
+                    <input type="text" name="otp" id="otp2" placeholder="OTP" class="form-control rounded-pill text-center" />
+                  </div>
+                  <button type="submit" class="btn btn-block btn-primary mt-3 text-uppercase">
+                    Order
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Lunch Card -->
+          <div class="col-lg-3">
+            <form action="/order-food" method="POST" id="orderFormLunch">
+              <input type="hidden" name="bookingid" value="{{ bookingid }}" />
+              <input type="hidden" name="meal_type" value="Lunch" />
+              <input type="hidden" name="meal_price" value="399" />
+              <div class="card mb-5 mb-lg-0">
+                <div class="card-body">
+                  <h5 class="card-title text-muted text-uppercase text-center">
+                    Lunch
+                  </h5>
+                  <h6 class="card-price text-center mt-3">&#8377; 399</h6>
+                  <hr />
+                  <ul class="fa-ul">
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Paneer Butter Masala
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Dal
+                      Tadka
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Vegetable Pulao
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Roti & Naan
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Mixed Vegetable Curry
+                    </li>
+                  </ul>
+                  <div class="otpmodel d-flex">
+                    <input type="text" name="otp" id="otp3" placeholder="OTP" class="form-control rounded-pill text-center" />
+                  </div>
+                  <button type="submit" class="btn btn-block btn-primary mt-3 text-uppercase">
+                    Order
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Dinner Card -->
+          <div class="col-lg-3">
+            <form action="/order-food" method="POST" id="orderFormDinner">
+              <input type="hidden" name="bookingid" value="{{ bookingid }}" />
+              <input type="hidden" name="meal_type" value="Dinner" />
+              <input type="hidden" name="meal_price" value="499" />
+              <input type="hidden" name="hidden_otp" value="{{ randotp }}" id="hiddenRandOtp" />
+              <div class="card mb-5 mb-lg-0">
+                <div class="card-body">
+                  <h5 class="card-title text-muted text-uppercase text-center">
+                    Dinner
+                  </h5>
+                  <h6 class="card-price text-center mt-3">&#8377; 499</h6>
+                  <hr />
+                  <ul class="fa-ul">
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Dal
+                      Tadka
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Paneer Tikka
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Fruits Raita
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Tandoori Roti
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Chana Masala
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Garlic Naan
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Rumali Roti
+                    </li>
+                    <li>
+                      <span class="fa-li"><i class="fas fa-check"></i></span>Gulab Jamun
+                    </li>
+                  </ul>
+                  <div class="otpmodel d-flex">
+                    <input type="text" name="otp" id="otp4" placeholder="OTP" class="form-control rounded-pill text-center" />
+                  </div>
+                  <button type="submit" class="btn btn-block btn-primary mt-3 text-uppercase">
+                    Order
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock body %}

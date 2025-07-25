@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <!-- <link rel="stylesheet" href="../static/assets/css/billing.css">-->
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 50px 20px;
+}
+.page-wrapper {
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	/* padding-left: 100px;
+	padding-right: 100px; */
+	padding: 0 50px;
+	margin: 0 100px;
+}
+/* .content {
+    margin-top: 0px;
+} */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+}
+.col-sm-6, .col-md-12, .col-sm-12 {
+    flex: 1;
+    min-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: white;
+}
+.col-sm-6 {
+    min-width: 48%;
+}
+
+.move{
+	padding: 0 70px;
+}
+.txt {
+    text-align: right;
+	padding: 20px 50px;
+}
+.side {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px 70px;
+}
+.movetbl{
+	padding: 0 70px;
+}
+.bullet {
+    list-style-type: none;
+    line-height: 25px;
+}
+.tbl {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: whitesmoke;
+}
+.table, .table th, .table td {
+    border: 1px solid #ddd;
+}
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
+}
+.table th {
+    background-color: #f4f4f4;
+}
+tr {
+    height: 45px;
+}
+.text-uppercase {
+    text-transform: uppercase;
+}
+.m-b-10 {
+    margin-bottom: 10px;
+}
+.float-right {
+    float: right;
+}
+.text-center {
+    text-align: center;
+}
+.mt-3 {
+    margin-top: 30px;
+}
+.font-small {
+    font-size: small;
+}
+.font-bold {
+    font-weight: bold;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.inv-logo{
+    height:100px;
+    width:fit-content;
+}
+.btn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.btn {
+    padding: 8px 12px;
+    border: none;
+    background-color: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+}
+.btn i {
+    margin-right: 5px;
+}
+.btn:hover {
+    background-color: #ccc;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    .col-sm-6, .col-md-12, .col-sm-12 {
+        min-width: 100%;
+    }
+    .side {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .inv-logo {
+        max-width: 80px;
+        margin-bottom: 15px;
+    }
+    .tbl {
+        padding: 0 10px;
+    }
+	.movetbl{
+		padding: 0;
+	}
+	.move{
+		padding: 0 20px;
+	}
+	.side{
+		padding: 20px 50px;
+	}
+	.page-wrapper{
+		margin: 0;
+	}
+}
+
+    </style>
+
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-5 col-4"></div>
+                <div class="col-sm-7 col-8 text-right m-b-30">
+                    <div class="btn-group">
+                        <button class="btn btn-white">CSV</button>
+                        <a href="/generate-pdf/{{customer.booking_id}}" class="btn btn-white" id="generatePDF">PDF</a>
+                        <button class="btn btn-white"><i class="fas fa-print fa-lg"></i> Print</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    {% for hotel in new_hotel %}
+                    <div class="card-box">
+                        <div class="col-sm-6 m-b-20 txt">
+                            <div class="invoice-details">
+                                <h4 class="text-uppercase">Invoice Number #12345</h4>
+                            </div>
+                        </div>
+
+                        <div class="row side">
+                            <div class="col-sm-6 m-b-20">
+                                <ul class="list-unstyled mb-0 bullet">
+                                    <li>
+                                        <h2>{{hotel.name}}</h2>
+                                    </li>
+                                    <li>{{hotel.address}}</li>
+                                    <li>{{hotel.city}}, {{hotel.zip_code}}</li>
+                                    <li>{{hotel.phone_no}}</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <img src="../static/assets/img/hotel.png" class="inv-logo" alt="Hotel Logo">
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row move">
+                            <div class="col-lg-12 m-b-20">
+                                <ul class="list-unstyled bullet">
+                                    <li>
+                                        <h3><strong>{{customer.name}}</strong></h3>
+                                    </li>
+                                    <li>Booking ID: {{customer.booking_id}}</li>
+                                    <li>Check-In Date: {{customer.check_in_date}}</li>
+                                    <li>Check-In Time: {{customer.check_in_time}}</li>
+                                    <li>Check-Out Date: {{customer.check_out_date}}</li>
+                                    <li>Check-Out Time: {{customer.check_out_time}}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tbl">
+                            <div class="col-sm-6 ">
+                                <div class=" movetbl">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr class="center">
+                                                <td>
+                                                    <h3 class="text-center"><strong>Room Detail</strong></h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Room Number</strong> <span class="float-right">{{customer.room_number}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Room Type</strong> <span class="float-right">{{customer.room_type.name}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Price</strong> <span class="float-right">{{customer.price}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Due Price</strong> <span class="float-right">{{customer.due_price}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <h3 class="text-center"><strong>Food Order</strong></h3>
+                                                </td>
+                                            </tr>
+                                            {% for foods in food_type %}
+                                            {% if foods.id == 1 %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{foods.menu_item}}</strong>
+                                                    <span class="float-right">{{foods.price}} * {{welcomeCount}}</span>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% if foods.id == 2 %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{foods.menu_item}}</strong>
+                                                    <span class="float-right">{{foods.price}} * {{breakCount}}</span>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% if foods.id == 3 %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{foods.menu_item}}</strong>
+                                                    <span class="float-right">{{foods.price}} * {{lunchCount}}</span>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% if foods.id == 4 %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{foods.menu_item}}</strong>
+                                                    <span class="float-right">{{foods.price}} * {{dinnerCount}}</span>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <tr>
+                                                <td><strong>Rent + Food</strong><span class="float-right"><strong>{{total_price  + customer.due_price}}</strong></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>GST(Goods And Service)</strong> <span class="float-right">+18%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Amount</strong> <span class="float-right"><strong>{{((((total_price  + customer.due_price) * 18)/100)+total_price+customer.due_price)}}</strong></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p class="font-small move"><strong>Description / Copyrights: </strong> Read all the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policies</a></p>
+                            </div>
+                        </div>
+                        <div class="txt text-center">Make all checks payable to: {{hotel.name}}<br><strong><i>THANK YOU FOR YOUR BUSINESS!</i></strong></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("generatePDF").addEventListener("click", function() {
+            const bookingId = "{{ customer.booking_id }}";  // Ensure the booking ID is correctly passed in the context
+            fetch(`/generate-pdf/${bookingId}`)
+                .then(response => response.blob())
+                .then(data => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(data);
+                    link.download = `bill_${bookingId}.pdf`;
+                    link.click();
+                })
+                .catch(error => console.error("Error generating PDF:", error));
+        });
+    </script>
+</body>
+
+</html>

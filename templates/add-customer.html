@@ -1,0 +1,276 @@
+{% extends 'base.html' %} {% block body %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title mt-5">New Booking</h3>
+        </div>
+      </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="container mt-3">
+      {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+          <!-- Cross icon -->
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+    <div class="row">
+      <div class="col-lg-12">
+        <form id="customer-form" action="/add-customer" method="POST">
+          <div class="row formtype">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Booking ID</label>
+                <input
+                  class="form-control"
+                  name="bookingId"
+                  type="text"
+                  placeholder="USER-0001"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Name</label>
+                <input
+                  class="form-control"
+                  name="name"
+                  type="text"
+                  placeholder="Alex Smith"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="sel1">Room Type:</label>
+                <select
+                  class="form-control"
+                  id="room_type"
+                  name="roomType"
+                  required
+                  onchange="updatePrice()"
+                >
+                  <option value="" disabled selected>Select a room type</option>
+                  {% for room_type in room %}
+                  <option
+                    value="{{ room_type.room_type_id }}"
+                    data-price="{{ room_type.base_price }}"
+                  >
+                    {{ room_type.name }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="sel1">Room Number:</label>
+                <select
+                  class="form-control"
+                  id="room_number"
+                  name="roomNumber"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Select a room number
+                  </option>
+                  {% for stat in status %}
+                  <option value="{{ stat.room_id }}">{{ stat.room_id }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Total Members</label>
+                <select class="form-control" id="sel3" name="totalNo">
+                  <option>Select</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Check-In Date</label>
+                <div class="cal-icon">
+                  <input
+                    type="text"
+                    class="form-control datetimepicker"
+                    name="checkInDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Check-In Time</label>
+                <div class="time-icon">
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="datetimepicker3"
+                    name="checkInTime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Check-Out Date</label>
+                <div class="cal-icon">
+                  <input
+                    type="text"
+                    class="form-control datetimepicker"
+                    name="checkOutDate"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Check-Out Time</label>
+                <div class="time-icon">
+                  <input
+                    type="time"
+                    class="form-control"
+                    id="datetimepicker3"
+                    name="checkOutTime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Email ID</label>
+                <input type="text" class="form-control" id="usr" name="email" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="usr1"
+                  name="phoneNo"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>File Upload</label>
+                <div class="custom-file mb-3">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="customFile"
+                    name="filename"
+                  />
+                  <label class="custom-file-label" for="customFile"
+                    >Choose file</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Price</label>
+                <input
+                  type="text"
+                  class="form-control bg-white"
+                  id="price"
+                  name="price"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Due Price</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="duePrice"
+                  name="duePrice"
+                />
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary buttonedit1">
+            Confirm Booking
+          </button>
+          <!-- Button to generate PDF -->
+          <!-- <button type="button" class="btn btn-primary buttonedit1" onclick="window.location.href='/generate-pdf'">Download PDF</button> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function updatePrice() {
+    var select = document.getElementById("room_type");
+    var price = select.options[select.selectedIndex].getAttribute("data-price");
+    document.getElementById("price").value = price;
+    document.getElementById("duePrice").value = price;
+  }
+  $(function () {
+    $(".datetimepicker").datetimepicker({
+      format: "YYYY-MM-DD",
+    });
+  });
+  document.getElementById("customer-form").onsubmit = function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Use Fetch API to send the form data
+    const formData = new FormData(this);
+
+    fetch(this.action, {
+      method: this.method,
+      body: formData,
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Create a temporary link element for the PDF
+          return response.blob().then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "booking.pdf"; // Set the filename
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+            // Reset the form after download
+            this.reset();
+          });
+        } else {
+          throw new Error("Failed to generate PDF");
+        }
+      })
+      .catch((error) => {
+        alert("An error occurred: " + error.message);
+      });
+  };
+</script>
+
+{% endblock body %}

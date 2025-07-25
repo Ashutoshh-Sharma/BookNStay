@@ -1,0 +1,40 @@
+﻿{% extends 'base.html' %} {% block body %}
+<div class="page-wrapper">
+  <div class="container" style="padding-top: 50px">
+    <h2 class="text-center mb-4 mt-4">All Rooms</h2>
+    <div class="table-responsive rounded border-2">
+      <table
+        class="table text-center table-hover table-bordered bg-white opacity-90 shadow-lg"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Room Id</th>
+            <th scope="col">Room Number</th>
+            <th scope="col">Room Type</th>
+            <th scope="col">Floor</th>
+            <th scope="col">Area</th>
+            <th scope="col">Price</th>
+            <th scope="col">Service Contact No.</th>
+			<th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for room in rooms %}
+          <tr>
+            <th scope="row">{{ room.room_id }}</th>
+            <td>{{ room.room_number }}</td>
+            <td>{{ room.room_type.name }}</td>
+            <td>{{ room.floor }}</td>
+            <td>{{ room.area }}</td>
+            <td>{{ room.price }}</td>
+            <td>{{ room.service_contact_no }}</td>
+			<td class="text-center"><a href="/edit-room/{{room.room_id}}"><i class="fas fa-edit" style="color: black;"></i>
+			</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock body %}

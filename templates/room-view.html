@@ -1,0 +1,152 @@
+{% extends 'base.html' %} {% block body %}
+<style>
+  /* Room and content styling */
+  .room {
+    height: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+
+  .available {
+    background-color: rgba(0, 128, 0, 0.618);
+    color: white;
+    font-size: 28px;
+  }
+
+  .occupied {
+    background-color: rgba(255, 0, 0, 0.618);
+    color: white;
+    font-size: 28px;
+  }
+
+  .maintenance {
+    background-color: rgba(255, 255, 0, 0.618);
+    font-size: 28px;
+  }
+
+  .heading {
+    background-color: #01776bcc;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+  }
+
+  .room-card {
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 100px;
+  }
+
+  .room-info {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f2f5fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .room-card:hover .room-info {
+    visibility: visible;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 78.5%;
+    background-color: #01776b;
+    color: white;
+    text-align: center;
+    border-radius: 18px;
+    padding: 15px;
+    font-size: 18px;
+    z-index: 99;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .room {
+      font-size: 1rem;
+    }
+    .room-info {
+      font-size: 0.9rem;
+    }
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .footer p:hover .tooltip-text {
+    visibility: visible;
+  }
+
+  .no-rooms-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #6c757d;
+    padding: 30px;
+  }
+</style>
+<div class="page-wrapper">
+  <div class="content container-fluid mt-5" id="content">
+    {% if rooms|length == 0 %}
+    <div class="no-rooms-message">
+      <p>No rooms available at the moment.</p>
+    </div>
+    {% else %} {% for i in range(1, maxFloor + 1) %}
+    <h4 class="heading p-3 display-6">Floor - {{ i }}</h4>
+    <div class="row g-4">
+      {% for room in rooms %} {% for allroom in allRoom %} {% if allroom and
+      allroom.room_number == room.room_id and allroom.floor == i %}
+      <div class="col-md-3 my-3">
+        <div class="room-card position-relative">
+          <div class="room p-3 text-center {{ room.status }}">
+            {{ room.room_id }}
+          </div>
+          <div class="room-info card shadow-lg">
+            <p><strong>Room ID:</strong> {{ room.room_id }}</p>
+            <p><strong>Status:</strong> {{ room.status }}</p>
+            <p><strong>Type:</strong> {{ allroom.room_type.name }}</p>
+            <p><strong>Price:</strong> {{ allroom.price }}</p>
+            <p><strong>Area:</strong> {{ allroom.area }}</p>
+            {% for todo in alltodo %} {% if todo.room_number == room.room_id %}
+            <p><strong>Message:</strong> {{ todo.message }}</p>
+            {% endif %} {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %} {% endfor %} {% endfor %}
+    </div>
+    {% endfor %} {% endif %}
+    <div class="footer">
+      <p>🟢 Available</p>
+      <p>🔴 Occupied</p>
+      <p>🟡 Maintenance</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

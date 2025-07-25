@@ -1,0 +1,189 @@
+﻿{% extends 'base.html' %}
+{% block body %}
+	
+      <div class="page-wrapper">
+        <div class="content container-fluid">
+          <div class="page-header mt-5">
+            <div class="row">
+              <div class="col">
+                <h3 class="page-title">Profile</h3>
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">Profile</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="profile-header">
+                <div class="row align-items-center">
+                  <div class="col-auto profile-image">
+                    <a href="#">
+                      <img
+                        class="rounded-circle"
+                        alt="User Image"
+                        src="../static/assets/img/profiles/avatar.gif"
+                      />
+                    </a>
+                  </div>
+                  <div class="col ml-md-n2 profile-user-info">
+                    <h4 class="user-name mb-3">{{new_hotel.name}}</h4>
+                    <h6 class="text-muted mt-1">Manager</h6>
+                    <div class="user-Location mt-1">
+                      <i class="fas fa-map-marker-alt"></i>
+                      {{new_hotel.address}}
+                    </div>
+                    <div class="about-text">{{new_hotel.description}}</div>
+                  </div>
+                  <div class="col-auto profile-btn">
+                    <a href="" class="btn btn-primary"> Message </a>
+                    <a href="edit-profile.html" class="btn btn-primary">
+                      Edit
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="profile-menu">
+                <ul class="nav nav-tabs nav-tabs-solid">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      data-toggle="tab"
+                      href="#per_details_tab"
+                      >About</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#password_tab"
+                      >Password</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="tab-content profile-tab-cont">
+                <div class="tab-pane fade show active" id="per_details_tab">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5
+                            class="card-title d-flex justify-content-between align-items-center"
+                          >
+                            <span>Personal Details</span>
+                            <a
+                              class="edit-link"
+                              data-toggle="modal"
+                              href="#edit_personal_details"
+                            >
+                              <i class="fa fa-edit mr-1"></i>Edit
+                            </a>
+                          </h5>
+                          <div class="row mt-5">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Name
+                            </p>
+                            <p class="col-sm-8">{{new_hotel.name}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Description
+                            </p>
+                            <p class="col-sm-8">{{new_hotel.description}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Email ID
+                            </p>
+                            <p class="col-sm-8">{{new_hotel.email}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Mobile
+                            </p>
+                            <p class="col-sm-8">{{new_hotel.phone_no}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Address
+                            </p>
+                            <p class="col-sm-8 mb-0">{{new_hotel.address}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              City
+                            </p>
+                            <p class="col-sm-8 mb-0">{{new_hotel.city}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              State
+                            </p>
+                            <p class="col-sm-8 mb-0">{{new_hotel.state}}</p>
+                          </div>
+                          <div class="row">
+                            <p class="col-sm-4 text-sm-right mb-0 mb-sm-3">
+                              Zip Code
+                            </p>
+                            <p class="col-sm-8 mb-0">{{new_hotel.zip_code}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <img
+                        src="../static/assets/img/profiles/avatar.gif"
+                        alt=""
+                        class="img-fluid"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div id="password_tab" class="tab-pane fade">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Change Password</h5>
+                      <div class="row">
+                        <div class="col-md-10 col-lg-6">
+                          <form action="/change-password" method="POST">
+                            <div class="form-group">
+                              <label>Old Password</label>
+                              <input
+                                type="password"
+                                class="form-control"
+                                name="old_password"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label>New Password</label>
+                              <input
+                                type="password"
+                                class="form-control"
+                                name="new_password"
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label>Confirm Password</label>
+                              <input
+                                type="password"
+                                class="form-control"
+                                name="new_password_repeat"
+                              />
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                              Save Changes
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endblock body %}

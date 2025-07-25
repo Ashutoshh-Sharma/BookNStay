@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% block body %}
+<div class="page-wrapper">
+  <div class="container" style="padding-top: 50px">
+    <h2 class="text-center mb-4 mt-4">Room Status Table</h2>
+
+    <!-- Display Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="alert-container">
+      {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <div class="table-responsive rounded border-2">
+      <table
+        class="table text-center table-hover table-bordered bg-white opacity-90 shadow-lg"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Room Id</th>
+            <th scope="col">Room Number</th>
+            <th scope="col">Room Type</th>
+            <th scope="col">Floor</th>
+            <th scope="col">Area</th>
+            <th scope="col">Price</th>
+            <th scope="col">Service Contact No.</th>
+            <th scope="col" colspan="3">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for room in rooms %}
+          <tr>
+            <th scope="row">{{ room.room_id }}</th>
+            <td>{{ room.room_number }}</td>
+            <td>{{ room.room_type.name }}</td>
+            <td>{{ room.floor }}</td>
+            <td>{{ room.area }}</td>
+            <td>{{ room.price }}</td>
+            <td>{{ room.service_contact_no }}</td>
+            <td>
+              <!-- Form for Available Status -->
+              <form
+                action="/{{ room.room_number }}/Available"
+                method="post"
+                style="display: inline"
+              >
+                <button type="submit" class="btn btn-success btn-sm">
+                  Available
+                </button>
+              </form>
+            </td>
+            <td>
+              <!-- Form for Occupied Status -->
+              <form
+                action="/{{ room.room_number }}/Occupied"
+                method="post"
+                style="display: inline"
+              >
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Occupied
+                </button>
+              </form>
+            </td>
+            <td>
+              <!-- Form for Maintenance Status -->
+              <form
+                action="/{{ room.room_number }}/Maintenance"
+                method="post"
+                style="display: inline"
+              >
+                <button type="submit" class="btn btn-warning btn-sm">
+                  Maintenance
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock body %}

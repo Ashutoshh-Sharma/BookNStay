@@ -1,0 +1,126 @@
+﻿{% extends 'base.html' %}
+{% block body %}
+
+
+<div class="page-wrapper">
+	<div class="content container-fluid">
+		<div class="page-header">
+			<div class="row align-items-center">
+				<div class="col">
+					<div class="mt-5">
+						<h4 class="card-title float-left mt-2">Payslip</h4>
+						<!-- <a href="add-booking.html" class="btn btn-primary float-right veiwbutton ">Food & Services</a> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<form action="/all-booking"  method="POST">
+					<div class="row formtype">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Booking Id</label>
+								<input class="form-control" type="text" value="" name="booking_id">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label>Customer Name</label>
+								<input class="form-control" type="text" value="" name="name">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label for="">Search</label>
+								<button type="submit" class="btn btn-success btn-block search_button mt-0"> Search </button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="card card-table">
+					<div class="card-body booking_card">
+						<div class="table-responsive">
+							<table class="datatable table table-stripped  table-hover table-center mb-0">
+								<thead>
+									<tr>
+										<th>S.No.</th>
+										<th>Booking ID</th>
+										<th>Name</th>
+										<th>Room Type</th>
+										<th>Room Number</th>
+										<th>Total Mumbers</th>
+										<th>Check-In Date</th>
+										<th>Check-In Time</th>
+										<th>Check-Out Date</th>
+										<th>Check-Out Time</th>
+										<th>Email ID</th>
+										<th>Ph.Number</th>
+										<th>Filename</th>
+										<th>Price</th>
+										<th>Food</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for cust in customer %}
+									<tr>
+										<td>{{loop.index}}</td>
+										<td>{{cust.booking_id}}</td>
+										<td>
+											<div class="table-avatar">
+												<a href="" class="avatar avatar-sm mr-2"><img class="avatar-img rounded-circle" src="../static/assets/img/profiles/avatar.png" alt="User Image"></a>
+												<a href="/customer-profile/{{cust.booking_id}}" class="text-primary">{{cust.name}}</a>
+											  </div>
+											  
+										</td>
+										<td>{{cust.room_type.name}}</td>
+										<td>{{cust.room_number}}</td>
+										<td>{{cust.total_no}}</td>
+										<td>{{cust.check_in_date}}</td>
+										<td>{{cust.check_in_time}}</td>
+										<td>{{cust.check_out_date}}</td>
+										<td>{{cust.check_out_time}}</td>
+										<td>{{cust.email}}</td>
+										<td>{{cust.phone_no}}</td>
+										<td>
+											<div class="actions">
+												<a href="#" class="btn btn-sm bg-success-light mr-2">Approved</a> 
+											</div>
+										</td>
+										<td>{{cust.price}}</td>
+										<td>
+											<a href="/final-bill/{{cust.booking_id}}" type="submit" class="btn btn-primary px-2 rounded text-white">Bill</a>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="delete_asset" class="modal fade delete-modal" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body text-center"> <img src="../static/assets/img/sent.png" alt="" width="50"
+						height="46">
+					<h3 class="delete_class">Are you sure want to delete this Asset?</h3>
+					<div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+						<button type="submit" class="btn btn-danger">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function () {
+		$('#datetimepicker3').datetimepicker({
+			format: 'LT'
+
+		});
+	});
+</script>
+{% endblock body %}
