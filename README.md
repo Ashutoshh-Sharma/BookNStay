@@ -1,4 +1,5 @@
 BookNStay
+BookNStay
 Tech Stack: Python, Flask, MySQL, SMTP (for email OTP)
 
 This was a personal project I built to help hotel owners manage their day-to-day operations more efficiently. The system allows hotel staff to register new customers, allocate rooms, track room status (like available, under cleaning, or occupied), generate bills, and even handle food orders linked to specific room numbers.
