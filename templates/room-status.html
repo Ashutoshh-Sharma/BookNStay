@@ -54,39 +54,21 @@
             <td>{{ room.service_contact_no }}</td>
             <td>
               <!-- Form for Available Status -->
-              <form
-                action="/{{ room.room_number }}/Available"
-                method="post"
-                style="display: inline"
-              >
-                <button type="submit" class="btn btn-success btn-sm">
-                  Available
-                </button>
-              </form>
+              <form action="/{{ room.room_number }}/available" method="post" style="display: inline">
+    <button type="submit" class="btn btn-success btn-sm">Available</button>
+</form>
             </td>
             <td>
               <!-- Form for Occupied Status -->
-              <form
-                action="/{{ room.room_number }}/Occupied"
-                method="post"
-                style="display: inline"
-              >
-                <button type="submit" class="btn btn-danger btn-sm">
-                  Occupied
-                </button>
-              </form>
+              <form action="/{{ room.room_number }}/occupied" method="post" style="display: inline">
+    <button type="submit" class="btn btn-danger btn-sm">Occupied</button>
+</form>
             </td>
             <td>
               <!-- Form for Maintenance Status -->
-              <form
-                action="/{{ room.room_number }}/Maintenance"
-                method="post"
-                style="display: inline"
-              >
-                <button type="submit" class="btn btn-warning btn-sm">
-                  Maintenance
-                </button>
-              </form>
+              <form action="/{{ room.room_number }}/maintenance" method="post" style="display: inline">
+    <button type="submit" class="btn btn-warning btn-sm">Maintenance</button>
+</form>
             </td>
           </tr>
           {% endfor %}
