@@ -143,21 +143,14 @@ class RoomRegistration(db.Model):
 class RoomStatus(db.Model):
     __tablename__ = "roomstatus"
 
-    id = db.Column(
-        db.Integer, primary_key=True, autoincrement=True
-    )  # Set auto-increment
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     status_type_id = db.Column(
         db.Integer,
         db.ForeignKey("roomstatustypes.id", ondelete="SET NULL"),
         nullable=True,
     )
-    room_id = db.Column(
-        db.String(50), primary_key=False, nullable=False
-    )  # Keep room_id as not primary_key
-    status = db.Column(
-        db.Enum("available", "occupied", "maintenance", name="status_enum"),
-        nullable=False,
-    )
+    room_id = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(20), nullable=False)  # Changed Enum to String
 
     def __repr__(self):
         return f"<Room {self.room_id} - {self.status}>"
