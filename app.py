@@ -184,20 +184,17 @@ def add_room_status_types():
 
     with app.app_context():
         for status_name in status_types:
-            # Check if the status type already exists in the database
-            existing_status = RoomStatusTypes.query.filter_by(
-                status_name=status_name
-            ).first()
-            if not existing_status:  # Only add if not already in the database
-                new_status = RoomStatusTypes(status_name=status_name)
-                db.session.add(new_status)
-                print(f"Adding new status: {status_name}")
-            else:
-                print(f"Status '{status_name}' already exists. Skipping.")
+        existing = RoomStatusTypes.query.filter(
+            func.lower(RoomStatusTypes.status_name) == status_name.lower()
+        ).first()
+        if not existing:
+            db.session.add(RoomStatusTypes(status_name=status_name))
+            print(f"✅ Added: {status_name}")
+        else:
+            print(f"⏭️ Already exists: {status_name}")
 
-        # Commit the session after adding new statuses
-        db.session.commit()
-        print("RoomStatusTypes have been added or skipped as necessary.")
+    db.session.commit()
+    print("✔️ RoomStatusTypes added/verified.")
 
 
 # Call the function to add the status types
