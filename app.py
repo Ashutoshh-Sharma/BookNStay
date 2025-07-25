@@ -9,6 +9,7 @@ from flask import (
     Response,
     make_response,
 )
+from sqlalchemy import func
 from datetime import datetime, timedelta
 import os
 import random, time
@@ -36,8 +37,14 @@ pymysql.install_as_MySQLdb()
 app = Flask(__name__)
 
 # Configure your app and secret key for session management
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+#     "DATABASE_URL",
+#     "mysql://root:admin1234@localhost/dbproject",
+#     # "mysql://root:lucky1980@localhost/dbproject",
+#     # "mysql://root:vaishali@localhost/dbproject", 
+# )
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = os.environ.get(
     "FLASK_SECRET_KEY", "fallback_secret_key"
@@ -143,14 +150,21 @@ class RoomRegistration(db.Model):
 class RoomStatus(db.Model):
     __tablename__ = "roomstatus"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(
+        db.Integer, primary_key=True, autoincrement=True
+    )  # Set auto-increment
     status_type_id = db.Column(
         db.Integer,
         db.ForeignKey("roomstatustypes.id", ondelete="SET NULL"),
         nullable=True,
     )
-    room_id = db.Column(db.String(50), nullable=False)
-    status = db.Column(db.String(20), nullable=False)  # Changed Enum to String
+    room_id = db.Column(
+        db.String(50), primary_key=False, nullable=False
+    )  # Keep room_id as not primary_key
+    status = db.Column(
+        db.Enum("available", "occupied", "maintenance", name="status_enum"),
+        nullable=False,
+    )
 
     def __repr__(self):
         return f"<Room {self.room_id} - {self.status}>"
@@ -184,17 +198,20 @@ def add_room_status_types():
 
     with app.app_context():
         for status_name in status_types:
-        existing = RoomStatusTypes.query.filter(
-            func.lower(RoomStatusTypes.status_name) == status_name.lower()
-        ).first()
-        if not existing:
-            db.session.add(RoomStatusTypes(status_name=status_name))
-            print(f"✅ Added: {status_name}")
-        else:
-            print(f"⏭️ Already exists: {status_name}")
+            # Check if the status type already exists in the database
+            existing_status = RoomStatusTypes.query.filter(
+    func.lower(RoomStatusTypes.status_name) == status_name.lower()
+).first()
+            if not existing_status:  # Only add if not already in the database
+                new_status = RoomStatusTypes(status_name=status_name)
+                db.session.add(new_status)
+                print(f"Adding new status: {status_name}")
+            else:
+                print(f"Status '{status_name}' already exists. Skipping.")
 
-    db.session.commit()
-    print("✔️ RoomStatusTypes added/verified.")
+        # Commit the session after adding new statuses
+        db.session.commit()
+        print("RoomStatusTypes have been added or skipped as necessary.")
 
 
 # Call the function to add the status types
@@ -443,7 +460,9 @@ def update_room_status(room_number, status):
         room_status.status = status  # Update the status
 
         # Optionally, update the status_type_id (link to RoomStatusTypes)
-        statustype = RoomStatusTypes.query.filter_by(status_name=status).first()
+        statustype = RoomStatusTypes.query.filter(
+    func.lower(RoomStatusTypes.status_name) == status
+).first()
         if statustype:
             room_status.status_type_id = statustype.id
         else:
@@ -451,7 +470,9 @@ def update_room_status(room_number, status):
             return redirect(url_for("room_status"))
     else:
         # If no RoomStatus entry exists for this room, create a new entry
-        statustype = RoomStatusTypes.query.filter_by(status_name=status).first()
+        statustype = RoomStatusTypes.query.filter(
+    func.lower(RoomStatusTypes.status_name) == status
+).first()
         if statustype:
             status_add = RoomStatus(
                 room_id=room_number, status=status, status_type_id=statustype.id
