@@ -36,14 +36,6 @@ pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 
-# Configure your app and secret key for session management
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-#     "DATABASE_URL",
-#     "mysql://root:admin1234@localhost/dbproject",
-#     # "mysql://root:lucky1980@localhost/dbproject",
-#     # "mysql://root:vaishali@localhost/dbproject", 
-# )
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = os.environ.get(
